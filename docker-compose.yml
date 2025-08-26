@@ -8,11 +8,14 @@ services:
     ports:
       - "5432:5432"
   web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+    build: ./meu_app
+    command: bash -c "mkdir -p tmp/pids && rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p 3000 -e development"
+    environment:
+      RAILS_ENV: development
+      RACK_ENV: development
     volumes:
-    - "./meu_app:/meu_app"
+      - "./meu_app:/meu_app"
     ports:
-    - "3000:3000"
+      - "3000:3000"
     depends_on:
-    - db
+      - db
